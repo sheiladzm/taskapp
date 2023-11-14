@@ -1,0 +1,26 @@
+version: '24.0.6'
+
+services:
+  backend-app:
+    image: 'taskappbackend:latest'
+    build:
+      context: .
+    container_name: backend-app
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/task_app
+      - SPRING_DATASOURCE_USERNAME=task_app
+      - SPRING_DATASOURCE_PASSWORD=task_app
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    ports:
+      - 8080:8080 # exposed port:listening port
+
+  db:
+    image: 'postgres:alpine3.18'
+    container_name: db
+    environment:
+      - POSTGRES_USER=task_app
+      - POSTGRES_PASSWORD=task_app
+    volumes:
+      - ./data:/var/lib/postgresql/data

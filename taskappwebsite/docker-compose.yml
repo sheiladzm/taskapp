@@ -1,0 +1,14 @@
+version: '24.0.6'
+services:
+  website:
+    image: node:alpine
+    container_name: task-app-website
+    entrypoint: /bin/sh
+    ports:
+      - 5173:5173
+    working_dir: /srv/app
+    volumes:
+      - type: bind
+        source: ./
+        target: /srv/app
+    tty: true

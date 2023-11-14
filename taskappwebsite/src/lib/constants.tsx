@@ -1,0 +1,12 @@
+export const ADD_TASK_LABEL = 'Add Task';
+export const OVERDUE_LABEL = 'OVERDUE';
+export const RETRIEVING_LIST_MESSAGE = 'Loading...';
+export const TASK_LABEL = 'Task: ';
+export const DESCRIPTION_LABEL = 'Description: ';
+export const CREATED_LABEL = 'Created on: ';
+export const DUE_LABEL = 'Due by: ';
+export const STATUS_LABEL = 'Status: ';
+export const SUCCESS_ALERT_TITLE = 'Success';
+export const ERROR_ALERT_TITLE = 'Error';
+export const SUCCESS_ALERT_DESCRIPTION = 'Request submitted successfully.';
+export const ERROR_ALERT_DESCRIPTION = 'Failed to submit your request. Please try again or contact us for assistance.';

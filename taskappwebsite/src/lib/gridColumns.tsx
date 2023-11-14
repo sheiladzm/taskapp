@@ -1,0 +1,93 @@
+import { GridColDef, GridRowModesModel } from "@mui/x-data-grid";
+import { getActionsContent, getStatusName, renderOverdueContent } from "./gridUtils";
+import { Status, Task } from "./types";
+
+export const createGridColumns = (
+    statusOptions: Status[], 
+    rowModesModel: GridRowModesModel, 
+    setRowModesModel: React.Dispatch<React.SetStateAction<GridRowModesModel>>, 
+    rows: readonly Task[],
+    setRows: (value: React.SetStateAction<readonly Task[]>) => void,
+    setTask: (value: React.SetStateAction<Task | undefined>) => void, 
+    setIsModalOpen: (value: React.SetStateAction<boolean>) => void,
+    setIsSuccessAlertOn: React.Dispatch<React.SetStateAction<boolean>>,
+    setIsErrorAlertOn: React.Dispatch<React.SetStateAction<boolean>>,
+): GridColDef[] => {
+    return [
+        {
+            field: 'title',
+            headerName: 'Title',
+            width: 280,
+            editable: true,
+            disableColumnMenu: true,
+            sortable: false,
+        },
+        {
+            field: 'description',
+            headerName: 'Description',
+            width: 380,
+            editable: true,
+            disableColumnMenu: true,
+            sortable: false,
+        },
+        {
+            field: 'createdDateTime',
+            headerName: 'Created Date and Time',
+            type: 'dateTime',
+            width: 240,
+            editable: false,
+            disableColumnMenu: true,
+            sortable: false,
+            valueGetter: (params) => new Date(params.row.createdDateTime),
+        },
+        {
+            field: 'dueDateTime',
+            headerName: 'Due Date and Time',
+            type: 'dateTime',
+            width: 240,
+            editable: true,
+            hideable: false,
+            valueGetter: (params) => new Date(params.row.dueDateTime),
+        },
+        {
+            field: 'alert',
+            headerName: 'Alert',
+            width: 160,
+            editable: false,
+            hideable: false,
+            disableColumnMenu: true,
+            sortable: false,
+            valueGetter: (params) => new Date(params.row.dueDateTime),
+            renderCell: (params) => renderOverdueContent(params),
+            },
+        {
+            field: 'status',
+            headerName: 'Status',
+            width: 160,
+            editable: true,
+            type: 'singleSelect',
+            valueOptions: statusOptions.map((status) => status.name),
+            sortable: false,
+            hideable: false,
+            valueGetter: (params) => getStatusName(params),
+        },
+        {
+            field: 'actions',
+            type: 'actions',
+            headerName: 'Actions',
+            width: 100,
+            cellClassName: 'actions',
+            getActions: ({ id }) => getActionsContent(
+            id,
+            rowModesModel,
+            setRowModesModel,
+            rows,
+            setRows,
+            setTask,
+            setIsModalOpen,
+            setIsSuccessAlertOn,
+            setIsErrorAlertOn,
+            ),
+        },
+    ];
+};
